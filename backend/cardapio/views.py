@@ -32,6 +32,6 @@ class CarrinhoViewSet(viewsets.ViewSet):
         try:
             item = ItemCarrinho.objects.get(produto_id=produto_id)
             item.delete()
-            return Response({"message":"item removido"})
+            return Response({"message": "item removido"})
         except ItemCarrinho.DoesNotExist:
-            return Response({"error":"item não encontrado"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"error": "item não encontrado"}, status=status.HTTP_404_NOT_FOUND)
