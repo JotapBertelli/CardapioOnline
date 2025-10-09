@@ -1,120 +1,244 @@
+// src/pages/AdminPage.js - VERSÃO ATUALIZADA
+
 import React, { useState, useEffect } from 'react';
-// ✅ Importamos as funções da API
-import { getMenuItems, createMenuItem, removeMenuItem } from '../api';
+import { useNavigate } from "react-router-dom";
+// Importe a nova função da API
+import { getMenuItems, createMenuItem, removeMenuItem, updateMenuItem, getBancoDeImagens } from '../api';
 import './AdminPage.css';
+
+// Ícones SVG (sem alteração)
+const IconEdit = () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>;
+const IconDelete = () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>;
 
 function AdminPage() {
   const [menuItems, setMenuItems] = useState([]);
+  const [bancoDeImagens, setBancoDeImagens] = useState([]); // ✅ NOVO STATE para as imagens
   const [loading, setLoading] = useState(true);
+  const [editingItem, setEditingItem] = useState(null);
 
-  // Estado para o formulário de novo item
+  // ✅ STATE ATUALIZADO: trocamos 'imagem: null' por 'imagem_selecionada: ""'
   const [newItem, setNewItem] = useState({
-    nome: '',
-    descricao: '',
-    preco: '',
-    categoria: '',
-    imagem: null,
+    nome: '', descricao: '', preco: '', categoria: '', disponivel: true, imagem_selecionada: '',
   });
 
-  // Carrega os itens do menu quando a página é aberta
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    navigate("/login");
+  };
+
   useEffect(() => {
-    carregarItens();
-  }, []);
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      navigate("/login");
+    } else {
+      carregarDadosIniciais();
+    }
+  }, [navigate]);
 
-  const carregarItens = () => {
+  const carregarDadosIniciais = async () => {
     setLoading(true);
-    getMenuItems()
-      .then(response => {
-        setMenuItems(response.data);
-      })
-      .catch(error => console.error("Erro ao carregar o cardápio:", error))
-      .finally(() => setLoading(false));
+    try {
+      // Carrega pratos e imagens em paralelo para mais performance
+      const [menuResponse, imagensResponse] = await Promise.all([
+        getMenuItems(),
+        getBancoDeImagens(),
+      ]);
+      setMenuItems(menuResponse.data);
+      setBancoDeImagens(imagensResponse.data);
+    } catch (error) {
+      console.error("Erro ao carregar dados:", error);
+      if (error.response && error.response.status === 401) {
+        handleLogout();
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  // Função para recarregar apenas os itens do menu após uma ação
+  const carregarItensDoMenu = () => {
+    getMenuItems().then(response => setMenuItems(response.data));
   };
 
-  // Lida com a alteração dos campos do formulário
-  const handleInputChange = (e) => {
+
+  const handleInputChange = (e, setState) => {
     const { name, value } = e.target;
-    setNewItem(prev => ({ ...prev, [name]: value }));
+    setState(prev => ({ ...prev, [name]: value }));
   };
 
-  // Lida com a seleção da imagem
-  const handleFileChange = (e) => {
-    setNewItem(prev => ({ ...prev, imagem: e.target.files[0] }));
+  const handleCheckboxChange = (e, setState) => {
+    const { name, checked } = e.target;
+    setState(prev => ({ ...prev, [name]: checked }));
   };
 
-  // Lida com o envio do formulário
+  // ❌ handleFileChange não é mais necessário
+
+  // ✅ Adicionar item (lógica de submit atualizada)
   const handleSubmit = (e) => {
     e.preventDefault();
+    // Prepara o objeto para enviar como JSON
+    const dataParaEnviar = {
+        ...newItem,
+        // Garante que o preço seja enviado como número
+        preco: parseFloat(newItem.preco),
+        // Envia null se nenhuma imagem for selecionada
+        imagem_selecionada: newItem.imagem_selecionada || null,
+    };
 
-    // Cria um FormData para enviar a imagem
-    const formData = new FormData();
-    formData.append('nome', newItem.nome);
-    formData.append('descricao', newItem.descricao);
-    formData.append('preco', newItem.preco);
-    formData.append('categoria', newItem.categoria);
-    if (newItem.imagem) {
-      formData.append('imagem', newItem.imagem);
-    }
-
-    createMenuItem(formData)
+    createMenuItem(dataParaEnviar)
       .then(() => {
         alert('Produto adicionado com sucesso!');
-        // Limpa o formulário e recarrega a lista
-        setNewItem({ nome: '', descricao: '', preco: '', categoria: '', imagem: null });
-        e.target.reset(); // Limpa o campo de ficheiro
-        carregarItens();
+        setNewItem({ nome: '', descricao: '', preco: '', categoria: '', disponivel: true, imagem_selecionada: '' });
+        carregarItensDoMenu();
       })
       .catch(error => {
-        console.error("Erro ao adicionar produto:", error);
-        alert('Falha ao adicionar o produto.');
+        console.error(error.response?.data);
+        alert('Falha ao adicionar o produto. Verifique os campos.');
       });
   };
 
-  // Lida com a remoção de um item
+  // ✅ Atualizar item (lógica de submit atualizada)
+  const handleUpdateSubmit = (e) => {
+    e.preventDefault();
+    const dataParaEnviar = {
+        nome: editingItem.nome,
+        descricao: editingItem.descricao,
+        preco: parseFloat(editingItem.preco),
+        categoria: editingItem.categoria,
+        disponivel: editingItem.disponivel,
+        imagem_selecionada: editingItem.imagem_selecionada || null,
+    };
+
+    updateMenuItem(editingItem.id, dataParaEnviar)
+      .then(() => {
+        alert('Produto atualizado com sucesso!');
+        setEditingItem(null);
+        carregarItensDoMenu();
+      })
+      .catch(error => {
+        console.error(error.response?.data);
+        alert('Falha ao atualizar o produto. Verifique os campos.');
+      });
+  };
+
   const handleRemove = (itemId) => {
     if (window.confirm('Tem a certeza de que quer apagar este item?')) {
       removeMenuItem(itemId)
         .then(() => {
           alert('Item apagado com sucesso!');
-          carregarItens();
+          carregarItensDoMenu();
         })
-        .catch(error => {
-          console.error("Erro ao apagar item:", error);
-          alert('Falha ao apagar o item.');
-        });
+        .catch(error => alert('Falha ao apagar o item.'));
     }
+  };
+
+  const openEditModal = (item) => {
+    // Ao abrir o modal, preenchemos com o ID da imagem atual do item
+    setEditingItem({ ...item, imagem_selecionada: item.imagem_selecionada || '' });
   };
 
   return (
     <div className="admin-container">
+      {/* Modal de Edição ATUALIZADO */}
+      {editingItem && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <form onSubmit={handleUpdateSubmit}>
+              <h2>Editar Prato</h2>
+              <input name="nome" value={editingItem.nome} onChange={(e) => handleInputChange(e, setEditingItem)} placeholder="Nome do Prato" required />
+              <textarea name="descricao" value={editingItem.descricao} onChange={(e) => handleInputChange(e, setEditingItem)} placeholder="Descrição" required />
+              <input name="preco" type="number" step="0.01" value={editingItem.preco} onChange={(e) => handleInputChange(e, setEditingItem)} placeholder="Preço" required />
+              <select name="categoria" value={editingItem.categoria} onChange={(e) => handleInputChange(e, setEditingItem)} required>
+                <option value="">Selecione a categoria</option>
+                <option value="entradas">Entradas</option>
+                <option value="porcoes">Porções</option>
+                <option value="pratos_quentes">Pratos Quentes</option>
+                <option value="bebidas">Bebidas</option>
+                <option value="bebidas_alcoolicas">Bebidas Alcoólicas</option>
+                <option value="drinks">Drinks</option>
+                <option value="sobremesas">Sobremesas</option>
+              </select>
+              <label className="checkbox-label">
+                Disponível
+                <input type="checkbox" name="disponivel" checked={editingItem.disponivel} onChange={(e) => handleCheckboxChange(e, setEditingItem)} />
+              </label>
+
+              {/* ✅ NOVO SELETOR DE IMAGEM */}
+              <label htmlFor="edit-imagem_selecionada">Imagem do Prato</label>
+              <select name="imagem_selecionada" id="edit-imagem_selecionada" value={editingItem.imagem_selecionada} onChange={(e) => handleInputChange(e, setEditingItem)}>
+                <option value="">-- Sem Imagem --</option>
+                {bancoDeImagens.map(img => (
+                  <option key={img.id} value={img.id}>{img.titulo}</option>
+                ))}
+              </select>
+
+              <div className="modal-actions">
+                <button type="button" onClick={() => setEditingItem(null)}>Cancelar</button>
+                <button type="submit">Guardar Alterações</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Formulário de Adicionar ATUALIZADO */}
       <div className="admin-form-section">
-        <h1>Gestão de Cardápio</h1>
+        <div className="admin-header">
+          <h1>Gestão de Cardápio</h1>
+          <button onClick={handleLogout} className="logout-btn">Sair</button>
+        </div>
         <form onSubmit={handleSubmit} className="admin-form">
           <h2>Adicionar Novo Prato</h2>
-          <input name="nome" value={newItem.nome} onChange={handleInputChange} placeholder="Nome do Prato" required />
-          <textarea name="descricao" value={newItem.descricao} onChange={handleInputChange} placeholder="Descrição" required />
-          <input name="preco" type="number" step="0.01" value={newItem.preco} onChange={handleInputChange} placeholder="Preço (ex: 25.50)" required />
-          <input name="categoria" value={newItem.categoria} onChange={handleInputChange} placeholder="Categoria (ex: Principal, Sobremesa)" required />
-          <label htmlFor="imagem">Imagem do Prato</label>
-          <input name="imagem" id="imagem" type="file" onChange={handleFileChange} />
+          <input name="nome" value={newItem.nome} onChange={(e) => handleInputChange(e, setNewItem)} placeholder="Nome do Prato" required />
+          <textarea name="descricao" value={newItem.descricao} onChange={(e) => handleInputChange(e, setNewItem)} placeholder="Descrição" required />
+          <input name="preco" type="number" step="0.01" value={newItem.preco} onChange={(e) => handleInputChange(e, setNewItem)} placeholder="Preço (ex: 25.50)" required />
+          <select name="categoria" value={newItem.categoria} onChange={(e) => handleInputChange(e, setNewItem)} required>
+            <option value="">Selecione a categoria</option>
+            <option value="entradas">Entradas</option>
+            <option value="porcoes">Porções</option>
+            <option value="pratos_quentes">Pratos Quentes</option>
+            <option value="bebidas">Bebidas</option>
+            <option value="bebidas_alcoolicas">Bebidas Alcoólicas</option>
+            <option value="drinks">Drinks</option>
+            <option value="sobremesas">Sobremesas</option>
+          </select>
+          <label className="checkbox-label">
+            Disponível
+            <input type="checkbox" name="disponivel" checked={newItem.disponivel} onChange={(e) => handleCheckboxChange(e, setNewItem)} />
+          </label>
+          
+          {/* ✅ NOVO SELETOR DE IMAGEM */}
+          <label htmlFor="imagem_selecionada">Imagem do Prato</label>
+          <select name="imagem_selecionada" id="imagem_selecionada" value={newItem.imagem_selecionada} onChange={(e) => handleInputChange(e, setNewItem)}>
+            <option value="">-- Selecione uma Imagem --</option>
+            {bancoDeImagens.map(img => (
+              <option key={img.id} value={img.id}>{img.titulo}</option>
+            ))}
+          </select>
+
           <button type="submit">Adicionar ao Cardápio</button>
         </form>
       </div>
 
+      {/* Lista de Itens ATUALIZADA */}
       <div className="admin-list-section">
         <h2>Cardápio Atual</h2>
         {loading ? <p>A carregar...</p> : (
           <div className="admin-item-list">
             {menuItems.map(item => (
               <div key={item.id} className="admin-item-card">
-                <img src={item.imagem || '/placeholder-food.jpg'} alt={item.nome} />
+                {/* ✅ CORREÇÃO: Usar 'item.imagem_url' que vem da API */}
+                <img src={item.imagem_url || '/placeholder-food.jpg'} alt={item.nome} />
                 <div className="admin-item-details">
                   <h3>{item.nome}</h3>
                   <p>R$ {parseFloat(item.preco).toFixed(2)}</p>
-                  <span>Categoria: {item.categoria}</span>
+                  <span>{item.categoria}</span>
                 </div>
                 <div className="admin-item-actions">
-                  <button className="delete-btn" onClick={() => handleRemove(item.id)}>Apagar</button>
+                  <button className="icon-btn edit-btn" onClick={() => openEditModal(item)}><IconEdit /></button>
+                  <button className="icon-btn delete-btn" onClick={() => handleRemove(item.id)}><IconDelete /></button>
                 </div>
               </div>
             ))}

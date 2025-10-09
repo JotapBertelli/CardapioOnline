@@ -1,5 +1,19 @@
-# Dependencies
-node_modules/
+# Ambiente virtual
+backend/venv/
+backend/.venv/
 
-# IDE settings
-.idea/
+# Cache do Python
+**/__pycache__/
+
+# Banco local
+backend/db.sqlite3
+
+# Arquivo de configuração sensível
+.env
+
+# Mídia
+backend/media/
+
+# Node modules
+frontend/node_modules/
+

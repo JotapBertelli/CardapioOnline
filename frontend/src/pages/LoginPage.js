@@ -1,31 +1,43 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { loginAdmin } from "../api";
 import "./LoginPage.css";
 
 function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError('');
 
-    // Aqui você pode validar com o backend futuramente
-    if (username === "admin" && password === "1234") {
-      localStorage.setItem("auth", "true"); // ✅ marca como logado
-      navigate("/admin"); // redireciona para o painel
-    } else {
-      alert("Usuário ou senha incorretos!");
-    }
+    loginAdmin(username, password)
+      .then(response => {
+        const token = response.data.token;
+        localStorage.setItem("authToken", token);
+        navigate("/admin");
+      })
+      .catch(error => {
+        setError("Nome de utilizador ou senha incorretos!");
+        console.error(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
     <div className="login-container">
       <form onSubmit={handleLogin} className="login-form">
-        <h1>Login Administrativo</h1>
+        <h2>Acesso Administrativo</h2>
+        <p>Digite as suas credenciais para continuar.</p>
         <input
           type="text"
-          placeholder="Usuário"
+          placeholder="Nome de utilizador"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
@@ -37,10 +49,14 @@ function LoginPage() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit">Entrar</button>
+        {error && <p className="error-message">{error}</p>}
+        <button type="submit" disabled={loading}>
+          {loading ? 'A entrar...' : 'Entrar'}
+        </button>
       </form>
     </div>
   );
 }
 
 export default LoginPage;
+

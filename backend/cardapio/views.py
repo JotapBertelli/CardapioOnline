@@ -1,8 +1,11 @@
 from rest_framework import viewsets, status
-from rest_framework.decorators import action
 from rest_framework.response import Response
-from .models import MenuItem, CartItem
-from .serializers import MenuItemSerializer, CartItemSerializer
+from .models import MenuItem, CartItem, BancoDeImagens
+from .serializers import MenuItemSerializer, CartItemSerializer, BancoDeImagensSerializer
+
+class BancoDeImagensViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = BancoDeImagens.objects.all()
+    serializer_class = BancoDeImagensSerializer
 
 
 class MenuItemViewSet(viewsets.ModelViewSet):
@@ -14,31 +17,16 @@ class CartItemViewSet(viewsets.ModelViewSet):
     queryset = CartItem.objects.all()
     serializer_class = CartItemSerializer
 
-    @action(detail=False, methods=['post'], url_path='adicionar')
-    def adicionar_ao_carrinho(self, request):
-        menu_item_id = request.data.get('menu_item_id')
-        if not menu_item_id:
-            return Response({'erro': 'menu_item_id não foi fornecido'}, status=status.HTTP_400_BAD_REQUEST)
+    # Sobrescrevendo create para calcular final_price corretamente
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
-        try:
-            menu_item = MenuItem.objects.get(id=menu_item_id)
-        except MenuItem.DoesNotExist:
-            return Response({'erro': 'Item do menu não encontrado'}, status=status.HTTP_404_NOT_FOUND)
+        # Cria o item do carrinho
+        cart_item = serializer.save(final_price=None)  # o save() do modelo calcula final_price
 
-        cart_item, created = CartItem.objects.get_or_create(produto=menu_item)
-
-        if not created:
-            cart_item.quantidade += 1
-            cart_item.save()
-
-        serializer = self.get_serializer(cart_item)
-        return Response(serializer.data, status=status.HTTP_201_CREATED if created else status.HTTP_200_OK)
-
-    @action(detail=True, methods=['post'], url_path='remover')
-    def remover_do_carrinho(self, request, pk=None):
-        try:
-            cart_item = CartItem.objects.get(pk=pk)
-            cart_item.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        except CartItem.DoesNotExist:
-            return Response({'erro': 'Item do carrinho não encontrado'}, status=status.HTTP_404_NOT_FOUND)
+        # Serializa o objeto completo para retorno
+        return Response(
+            CartItemSerializer(cart_item).data,
+            status=status.HTTP_201_CREATED
+        )

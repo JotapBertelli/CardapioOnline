@@ -1,11 +1,18 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
-// Importe as páginas
-import MenuPage from './pages/HomePage';
-import Carrinho from './components/Carrinho';
-import AdminPage from './pages/AdminPage'; // ✅ importa a página administrativa
+// Páginas
+import MenuPage from "./pages/HomePage";
+import Carrinho from "./components/Carrinho";
+import AdminPage from "./pages/AdminPage";
+import LoginPage from "./pages/LoginPage";
+
+// Rota protegida
+function PrivateRoute({ children }) {
+  const token = localStorage.getItem("authToken");
+  return token ? children : <Navigate to="/login" />;
+}
 
 function App() {
   return (
@@ -18,14 +25,24 @@ function App() {
           {/* Carrinho */}
           <Route path="/carrinho" element={<Carrinho />} />
 
-          {/* Página administrativa */}
-          <Route path="/admin" element={<AdminPage />} /> {/* ✅ nova rota */}
+          {/* Login */}
+          <Route path="/login" element={<LoginPage />} />
+
+          {/* Admin (rota protegida) */}
+          <Route
+            path="/admin"
+            element={
+              <PrivateRoute>
+                <AdminPage />
+              </PrivateRoute>
+            }
+          />
         </Routes>
       </div>
     </Router>
   );
 }
 
-const container = document.getElementById('root');
+const container = document.getElementById("root");
 const root = createRoot(container);
 root.render(<App />);

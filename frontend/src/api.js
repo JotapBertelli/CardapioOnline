@@ -1,55 +1,72 @@
 import axios from 'axios';
 
-// URL base da sua API Django.
 const API_URL = 'http://127.0.0.1:8000/api';
 
 const apiClient = axios.create({
   baseURL: API_URL,
 });
 
+// Interceptor para adicionar o token de autenticação (está correto)
+apiClient.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      config.headers['Authorization'] = `Token ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// --- Funções de Autenticação ---
+// Esta função parece correta para o seu setup de login.
+export const loginAdmin = (username, password) => {
+  return axios.post('http://127.0.0.1:8000/api/token/', { username, password });
+};
+
+
+// --- Funções para o Banco de Imagens ---
+
+// ✅ 1. NOVA FUNÇÃO ADICIONADA
+// Esta função busca a lista de imagens disponíveis para preencher o <select> no seu formulário.
+export const getBancoDeImagens = () => apiClient.get('/banco-imagens/');
+
+
 // --- Funções para o Cardápio (Menu) ---
+export const getMenuItems = () => apiClient.get('/menu-items/');
 
-// Busca todos os itens do cardápio
-export const getMenuItems = () => {
-  return apiClient.get('/menu-items/');
+// ✅ 2. FUNÇÃO ATUALIZADA
+// Agora aceita um objeto 'itemData' e o envia como JSON. Não usamos mais FormData.
+export const createMenuItem = (itemData) => {
+  return apiClient.post('/menu-items/', itemData);
 };
 
-// Cria um novo item no cardápio (usado pela AdminPage)
-// Nota: 'formData' é usado para permitir o upload de imagens
-export const createMenuItem = (formData) => {
-  return apiClient.post('/menu-items/', formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
-};
+export const removeMenuItem = (itemId) => apiClient.delete(`/menu-items/${itemId}/`);
 
-// Apaga um item do cardápio (usado pela AdminPage)
-export const removeMenuItem = (itemId) => {
-  return apiClient.delete(`/menu-items/${itemId}/`);
+// ✅ 3. FUNÇÃO ATUALIZADA
+// Também foi alterada para enviar 'itemData' como JSON. Usamos PATCH para atualizações eficientes.
+export const updateMenuItem = (itemId, itemData) => {
+  return apiClient.patch(`/menu-items/${itemId}/`, itemData);
 };
 
 
 // --- Funções para o Carrinho (Cart) ---
+// Nenhuma alteração necessária aqui.
+export const getCartItems = () => apiClient.get('/cart-items/');
 
-// Busca todos os itens do carrinho
-export const getCartItems = () => {
-  return apiClient.get('/cart-items/');
+export const addCartItem = (produtoId, quantidade = 1) => {
+  return axios.post("http://127.0.0.1:8000/api/cart-items/", {
+    produto_id: produtoId,
+    quantidade: quantidade
+  });
 };
 
-// Adiciona um item ao carrinho
-// Corrigido para usar a rota padrão do DRF e enviar o ID do produto
-export const addCartItem = (produtoId) => {
-  return apiClient.post('/cart-items/', { produto: produtoId });
-};
-
-// Atualiza a quantidade de um item no carrinho
 export const updateCartItem = (cartItemId, quantidade) => {
   return apiClient.patch(`/cart-items/${cartItemId}/`, { quantidade });
 };
 
-// Remove um item do carrinho
 export const removeCartItem = (cartItemId) => {
   return apiClient.delete(`/cart-items/${cartItemId}/`);
 };
-

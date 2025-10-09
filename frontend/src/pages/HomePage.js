@@ -111,32 +111,35 @@ function HomePage() {
       </section>
 
       {/* Grid de Itens (agora com dados da API) */}
-      <section className="menu-grid">
-        {itensFiltrados.map((item) => (
-          <div key={item.id} className="menu-item-card">
-            <div className="card-image-container">
-              <img
-                src={item.imagem || '/placeholder-food.jpg'}
-                alt={item.nome}
-                className="menu-item-image"
-              />
-            </div>
-            <div className="menu-item-content">
-              <h3 className="menu-item-name">{item.nome}</h3>
-              <span className="menu-item-price">
-                R$ {parseFloat(item.preco).toFixed(2)}
-              </span>
-              <p className="menu-item-description">{item.descricao}</p>
-              <button
-                className="add-carrinho-btn"
-                onClick={() => handleAdicionarCarrinho(item)} // Usa a nova função
-              >
-                Adicionar +
-              </button>
-            </div>
-          </div>
-        ))}
-      </section>
+
+
+<section className="menu-grid">
+  {itensFiltrados.map((item) => (
+    <div key={item.id} className="menu-item-card">
+      <div className="card-image-container">
+        <img
+          // ✅ CORREÇÃO APLICADA AQUI
+          src={item.imagem_url || '/placeholder-food.jpg'}
+          alt={item.nome}
+          className="menu-item-image"
+        />
+      </div>
+      <div className="menu-item-content">
+        <h3 className="menu-item-name">{item.nome}</h3>
+        <span className="menu-item-price">
+          R$ {parseFloat(item.preco).toFixed(2)}
+        </span>
+        <p className="menu-item-description">{item.descricao}</p>
+        <button
+          className="add-carrinho-btn"
+          onClick={() => handleAdicionarCarrinho(item)}
+        >
+          Adicionar +
+        </button>
+      </div>
+    </div>
+  ))}
+</section>
     </div>
   );
 }

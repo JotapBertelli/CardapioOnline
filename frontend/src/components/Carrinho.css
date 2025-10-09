@@ -1,42 +1,64 @@
-/* --- Tema Dark e Layout Principal --- */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+/* --- Fonte Global e Reset --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #121212;
+  color: #f5f5f5;
+}
+
+/* --- Container Principal --- */
 .carrinho-container.modo-totem {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 40px;
   max-width: 1400px;
   margin: 40px auto;
-  padding: 20px;
-  font-family: 'Poppins', sans-serif;
-  background-color: #1a1a1a;
-  color: #f5f5f5;
-  border-radius: 12px;
+  padding: 30px;
+  background-color: #1e1e1e;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
 }
 
+/* --- Lista de Produtos --- */
 .lista-produtos h1 {
-  font-size: 2.5em;
-  margin-bottom: 20px;
+  font-size: 2.5rem;
+  margin-bottom: 25px;
   border-bottom: 2px solid #333;
   padding-bottom: 15px;
+  font-weight: 700;
 }
 
-/* --- Itens Individuais do Carrinho --- */
+/* --- Item Individual --- */
 .carrinho-item {
   display: flex;
   align-items: center;
   gap: 20px;
   padding: 20px;
   border-radius: 12px;
-  background-color: #2c2c2c;
+  background-color: #2a2a2a;
   margin-bottom: 15px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.carrinho-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 255, 140, 0.2);
 }
 
 .item-imagem {
-  width: 90px;
-  height: 90px;
+  width: 100px;
+  height: 100px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 12px;
+  flex-shrink: 0;
+  border: 2px solid #00ff8c33;
 }
 
 .item-detalhes {
@@ -44,17 +66,17 @@
 }
 
 .item-detalhes h3 {
-  font-size: 1.2em;
+  font-size: 1.3rem;
   font-weight: 600;
-  margin: 0;
+  margin-bottom: 5px;
 }
 
 .item-preco {
-  color: #bbb;
-  font-size: 1em;
+  color: #aaa;
+  font-size: 1rem;
 }
 
-/* --- Ações do Item (Quantidade, Subtotal, Remover) --- */
+/* --- Ações do Item --- */
 .item-acoes {
   display: flex;
   align-items: center;
@@ -64,38 +86,39 @@
 .quantidade-controle {
   display: flex;
   align-items: center;
-  gap: 15px;
-  background-color: #3f3f3f;
-  border-radius: 20px;
-  padding: 5px;
+  gap: 12px;
+  background-color: #3a3a3a;
+  border-radius: 25px;
+  padding: 5px 10px;
 }
 
 .quantidade-controle span {
-  font-size: 1.1em;
+  font-size: 1.1rem;
   font-weight: 600;
-  min-width: 25px;
+  min-width: 28px;
   text-align: center;
 }
 
 .quantidade-controle button {
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   border: none;
   background-color: #555;
   color: #fff;
-  font-size: 1.5em;
+  font-size: 1.2rem;
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.2s;
 }
 
 .quantidade-controle button:hover {
-  background-color: #666;
+  background-color: #00ff8c;
+  color: #121212;
 }
 
 .item-subtotal {
-  font-size: 1.2em;
+  font-size: 1.2rem;
   font-weight: 700;
   min-width: 100px;
   text-align: right;
@@ -114,20 +137,21 @@
   color: #ff4d4d;
 }
 
-/* --- Resumo do Pedido (Coluna da Direita) --- */
+/* --- Resumo do Pedido --- */
 .resumo-pedido {
   position: sticky;
   top: 20px;
   padding: 30px;
-  background-color: #2c2c2c;
+  background-color: #2a2a2a;
   border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
   height: fit-content;
+  transition: all 0.3s;
 }
 
 .resumo-pedido h2 {
-  font-size: 2em;
-  margin-top: 0;
-  margin-bottom: 30px;
+  font-size: 2rem;
+  margin-bottom: 25px;
   border-bottom: 1px solid #444;
   padding-bottom: 10px;
 }
@@ -135,52 +159,58 @@
 .resumo-linha {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
-  font-size: 1.1em;
+  margin-bottom: 18px;
+  font-size: 1.1rem;
 }
 
 .resumo-total {
   display: flex;
   justify-content: space-between;
-  margin-top: 30px;
+  margin-top: 25px;
   padding-top: 20px;
   border-top: 1px solid #444;
 }
 
 .resumo-total h3 {
-  font-size: 1.6em;
-  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
 }
 
 .finalizar-btn {
   width: 100%;
-  padding: 20px;
+  padding: 18px;
   margin-top: 30px;
-  font-size: 1.2em;
+  font-size: 1.2rem;
   font-weight: 700;
-  letter-spacing: 1px;
-  color: #1a1a1a;
-  background-color: #00ff8c; /* Cor de destaque vibrante */
+  color: #121212;
+  background: linear-gradient(90deg, #00ff8c, #00cc99);
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.2s, box-shadow 0.3s;
 }
 
 .finalizar-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(0, 255, 140, 0.3);
+  box-shadow: 0 8px 20px rgba(0, 255, 140, 0.4);
 }
 
 /* --- Carrinho Vazio --- */
 .carrinho-vazio {
   text-align: center;
-  padding: 100px 20px;
-  grid-column: 1 / -1; /* Ocupa todo o espaço do grid */
+  padding: 120px 20px;
+  grid-column: 1 / -1;
 }
 
 .carrinho-vazio h2 {
-  font-size: 2em;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.carrinho-vazio p {
+  font-size: 1.1rem;
+  color: #aaa;
 }
 
 /* --- Responsividade --- */
@@ -188,8 +218,10 @@
   .carrinho-container.modo-totem {
     grid-template-columns: 1fr;
   }
+
   .resumo-pedido {
     position: static;
+    margin-top: 30px;
   }
 }
 
@@ -198,11 +230,14 @@
     flex-direction: column;
     align-items: stretch;
   }
+
   .item-acoes {
     justify-content: space-between;
     margin-top: 15px;
   }
+
   .item-subtotal {
     text-align: left;
+    margin-top: 5px;
   }
 }
