@@ -21,9 +21,8 @@ function LoginPage() {
         localStorage.setItem("authToken", token);
         navigate("/admin");
       })
-      .catch(error => {
+      .catch(() => {
         setError("Nome de utilizador ou senha incorretos!");
-        console.error(error);
       })
       .finally(() => {
         setLoading(false);
@@ -33,25 +32,35 @@ function LoginPage() {
   return (
     <div className="login-container">
       <form onSubmit={handleLogin} className="login-form">
-        <h2>Acesso Administrativo</h2>
-        <p>Digite as suas credenciais para continuar.</p>
-        <input
-          type="text"
-          placeholder="Nome de utilizador"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Senha"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+        <h2>Área Administrativa</h2>
+        <p>Digite suas credenciais para continuar</p>
+
+        <div className="input-group">
+          <i className="fa-solid fa-user"></i>
+          <input
+            type="text"
+            placeholder="Nome de utilizador"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className="input-group">
+          <i className="fa-solid fa-lock"></i>
+          <input
+            type="password"
+            placeholder="Senha"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+
         {error && <p className="error-message">{error}</p>}
+
         <button type="submit" disabled={loading}>
-          {loading ? 'A entrar...' : 'Entrar'}
+          {loading ? "Entrando..." : "Entrar"}
         </button>
       </form>
     </div>
@@ -59,4 +68,3 @@ function LoginPage() {
 }
 
 export default LoginPage;
-

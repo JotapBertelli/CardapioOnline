@@ -1,0 +1,28 @@
+Git
+.git
+.gitignore
+
+Docker
+Dockerfile
+docker-compose.yml
+
+Python
+pycache/
+*.pyc
+*.pyo
+.pyd
+venv/
+.venv/
+env/
+.env
+
+Banco de dados local
+*.sqlite3
+db.sqlite3
+
+Arquivos de IDE
+.idea/
+.vscode/
+
+Arquivos de dependências locais (macOS)
+.DS_Store
