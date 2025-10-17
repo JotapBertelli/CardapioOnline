@@ -1,0 +1,1018 @@
+/* ================================
+   🪟 Overlay do Modal
+================================ */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  backdrop-filter: blur(4px);/* ================================
+   🪟 Overlay do Modal
+================================ */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+
+/* ================================
+   📦 Container do Modal
+================================ */
+.modal-personalizacao {
+  background: white;
+  border-radius: 16px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  position: relative;
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================================
+   ❌ Botão Fechar
+================================ */
+.modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: #f5f5f5;
+  border: none;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  z-index: 1;
+  color: #666;
+}
+
+.modal-close:hover {
+  background: #009688;
+  color: white;
+  transform: rotate(90deg);
+}
+
+/* ================================
+   📋 Header do Modal
+================================ */
+.modal-header {
+  display: flex;
+  gap: 20px;
+  padding: 30px;
+  border-bottom: 2px solid #e8f6f7;
+}
+
+.modal-produto-imagem {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 3px solid #cdeff0;
+}
+
+.modal-produto-info {
+  flex: 1;
+}
+
+.modal-produto-info h2 {
+  font-size: 1.6rem;
+  color: #009688;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.modal-produto-descricao {
+  color: #666;
+  font-size: 0.95rem;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.modal-produto-preco {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #00796b;
+}
+
+/* ================================
+   📝 Body do Modal
+================================ */
+.modal-body {
+  padding: 30px;
+}
+
+.personalizacao-secao {
+  margin-bottom: 30px;
+}
+
+.personalizacao-secao h3 {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+/* ================================
+   🔘 Lista de Adicionais (Radio)
+================================ */
+.adicionais-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.adicional-opcao {
+  display: flex;
+  align-items: center;
+  padding: 15px 18px;
+  border: 2px solid #cdeff0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+  background: #fdfdfd;
+}
+
+.adicional-opcao:hover {
+  border-color: #009688;
+  background: #e8f6f7;
+  transform: translateX(5px);
+}
+
+.adicional-opcao input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  margin-right: 12px;
+  cursor: pointer;
+  accent-color: #009688;
+}
+
+.adicional-nome {
+  flex: 1;
+  font-size: 1rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.adicional-preco {
+  font-weight: 600;
+  color: #009688;
+  font-size: 0.95rem;
+}
+
+.adicional-opcao:has(input:checked) {
+  border-color: #009688;
+  background: #e8f6f7;
+  box-shadow: 0 4px 12px rgba(0, 150, 136, 0.15);
+}
+
+/* ================================
+   📝 Textarea de Observações
+================================ */
+.observacoes-textarea {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #cdeff0;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  resize: vertical;
+  transition: border-color 0.3s;
+}
+
+.observacoes-textarea:focus {
+  outline: none;
+  border-color: #009688;
+  background: #fff;
+}
+
+/* ================================
+   🔢 Controle de Quantidade
+================================ */
+.quantidade-controle {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #e8f6f7;
+  width: fit-content;
+  padding: 8px 15px;
+  border-radius: 25px;
+}
+
+.quantidade-btn {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: none;
+  background: #009688;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quantidade-btn:hover {
+  background: #00796b;
+  transform: scale(1.1);
+}
+
+.quantidade-btn:active {
+  transform: scale(0.95);
+}
+
+.quantidade-valor {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #009688;
+  min-width: 40px;
+  text-align: center;
+}
+
+/* ================================
+   🛒 Footer do Modal
+================================ */
+.modal-footer {
+  padding: 25px 30px;
+  border-top: 2px solid #e8f6f7;
+  background: #fafafa;
+}
+
+.preco-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+}
+
+.preco-total span:first-child {
+  color: #666;
+  font-weight: 500;
+}
+
+.preco-valor {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #00796b;
+}
+
+.btn-adicionar-carrinho {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(90deg, #26c6da, #009688);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: 'Poppins', sans-serif;
+}
+
+.btn-adicionar-carrinho:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 150, 136, 0.3);
+}
+
+.btn-adicionar-carrinho:active {
+  transform: translateY(0);
+}
+
+/* ================================
+   📱 Responsividade
+================================ */
+@media (max-width: 768px) {
+  .modal-personalizacao {
+    max-height: 95vh;
+  }
+
+  .modal-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .modal-produto-imagem {
+    width: 150px;
+    height: 150px;
+  }
+
+  .modal-body {
+    padding: 20px;
+  }
+
+  .modal-footer {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-produto-info h2 {
+    font-size: 1.3rem;
+  }
+
+  .preco-valor {
+    font-size: 1.5rem;
+  }
+}/* ================================
+   🪟 Overlay do Modal
+================================ */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+
+/* ================================
+   📦 Container do Modal
+================================ */
+.modal-personalizacao {
+  background: white;
+  border-radius: 16px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  position: relative;
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================================
+   ❌ Botão Fechar
+================================ */
+.modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: #f5f5f5;
+  border: none;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  z-index: 1;
+  color: #666;
+}
+
+.modal-close:hover {
+  background: #009688;
+  color: white;
+  transform: rotate(90deg);
+}
+
+/* ================================
+   📋 Header do Modal
+================================ */
+.modal-header {
+  display: flex;
+  gap: 20px;
+  padding: 30px;
+  border-bottom: 2px solid #e8f6f7;
+}
+
+.modal-produto-imagem {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 3px solid #cdeff0;
+}
+
+.modal-produto-info {
+  flex: 1;
+}
+
+.modal-produto-info h2 {
+  font-size: 1.6rem;
+  color: #009688;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.modal-produto-descricao {
+  color: #666;
+  font-size: 0.95rem;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.modal-produto-preco {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #00796b;
+}
+
+/* ================================
+   📝 Body do Modal
+================================ */
+.modal-body {
+  padding: 30px;
+}
+
+.personalizacao-secao {
+  margin-bottom: 30px;
+}
+
+.personalizacao-secao h3 {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+/* ================================
+   🔘 Lista de Adicionais (Radio)
+================================ */
+.adicionais-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.adicional-opcao {
+  display: flex;
+  align-items: center;
+  padding: 15px 18px;
+  border: 2px solid #cdeff0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+  background: #fdfdfd;
+}
+
+.adicional-opcao:hover {
+  border-color: #009688;
+  background: #e8f6f7;
+  transform: translateX(5px);
+}
+
+.adicional-opcao input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  margin-right: 12px;
+  cursor: pointer;
+  accent-color: #009688;
+}
+
+.adicional-nome {
+  flex: 1;
+  font-size: 1rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.adicional-preco {
+  font-weight: 600;
+  color: #009688;
+  font-size: 0.95rem;
+}
+
+.adicional-opcao:has(input:checked) {
+  border-color: #009688;
+  background: #e8f6f7;
+  box-shadow: 0 4px 12px rgba(0, 150, 136, 0.15);
+}
+
+/* ================================
+   📝 Textarea de Observações
+================================ */
+.observacoes-textarea {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #cdeff0;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  resize: vertical;
+  transition: border-color 0.3s;
+}
+
+.observacoes-textarea:focus {
+  outline: none;
+  border-color: #009688;
+  background: #fff;
+}
+
+/* ================================
+   🔢 Controle de Quantidade
+================================ */
+.quantidade-controle {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #e8f6f7;
+  width: fit-content;
+  padding: 8px 15px;
+  border-radius: 25px;
+}
+
+.quantidade-btn {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: none;
+  background: #009688;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quantidade-btn:hover {
+  background: #00796b;
+  transform: scale(1.1);
+}
+
+.quantidade-btn:active {
+  transform: scale(0.95);
+}
+
+.quantidade-valor {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #009688;
+  min-width: 40px;
+  text-align: center;
+}
+
+/* ================================
+   🛒 Footer do Modal
+================================ */
+.modal-footer {
+  padding: 25px 30px;
+  border-top: 2px solid #e8f6f7;
+  background: #fafafa;
+}
+
+.preco-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+}
+
+.preco-total span:first-child {
+  color: #666;
+  font-weight: 500;
+}
+
+.preco-valor {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #00796b;
+}
+
+.btn-adicionar-carrinho {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(90deg, #26c6da, #009688);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: 'Poppins', sans-serif;
+}
+
+.btn-adicionar-carrinho:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 150, 136, 0.3);
+}
+
+.btn-adicionar-carrinho:active {
+  transform: translateY(0);
+}
+
+/* ================================
+   📱 Responsividade
+================================ */
+@media (max-width: 768px) {
+  .modal-personalizacao {
+    max-height: 95vh;
+  }
+
+  .modal-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .modal-produto-imagem {
+    width: 150px;
+    height: 150px;
+  }
+
+  .modal-body {
+    padding: 20px;
+  }
+
+  .modal-footer {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-produto-info h2 {
+    font-size: 1.3rem;
+  }
+
+  .preco-valor {
+    font-size: 1.5rem;
+  }
+}
+}
+
+/* ================================
+   📦 Container do Modal
+================================ */
+.modal-personalizacao {
+  background: white;
+  border-radius: 16px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  position: relative;
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================================
+   ❌ Botão Fechar
+================================ */
+.modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: #f5f5f5;
+  border: none;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  z-index: 1;
+  color: #666;
+}
+
+.modal-close:hover {
+  background: #009688;
+  color: white;
+  transform: rotate(90deg);
+}
+
+/* ================================
+   📋 Header do Modal
+================================ */
+.modal-header {
+  display: flex;
+  gap: 20px;
+  padding: 30px;
+  border-bottom: 2px solid #e8f6f7;
+}
+
+.modal-produto-imagem {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 3px solid #cdeff0;
+}
+
+.modal-produto-info {
+  flex: 1;
+}
+
+.modal-produto-info h2 {
+  font-size: 1.6rem;
+  color: #009688;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.modal-produto-descricao {
+  color: #666;
+  font-size: 0.95rem;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.modal-produto-preco {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #00796b;
+}
+
+/* ================================
+   📝 Body do Modal
+================================ */
+.modal-body {
+  padding: 30px;
+}
+
+.personalizacao-secao {
+  margin-bottom: 30px;
+}
+
+.personalizacao-secao h3 {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+/* ================================
+   🔘 Lista de Adicionais (Radio)
+================================ */
+.adicionais-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.adicional-opcao {
+  display: flex;
+  align-items: center;
+  padding: 15px 18px;
+  border: 2px solid #cdeff0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+  background: #fdfdfd;
+}
+
+.adicional-opcao:hover {
+  border-color: #009688;
+  background: #e8f6f7;
+  transform: translateX(5px);
+}
+
+.adicional-opcao input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  margin-right: 12px;
+  cursor: pointer;
+  accent-color: #009688;
+}
+
+.adicional-nome {
+  flex: 1;
+  font-size: 1rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.adicional-preco {
+  font-weight: 600;
+  color: #009688;
+  font-size: 0.95rem;
+}
+
+.adicional-opcao:has(input:checked) {
+  border-color: #009688;
+  background: #e8f6f7;
+  box-shadow: 0 4px 12px rgba(0, 150, 136, 0.15);
+}
+
+/* ================================
+   📝 Textarea de Observações
+================================ */
+.observacoes-textarea {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #cdeff0;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  resize: vertical;
+  transition: border-color 0.3s;
+}
+
+.observacoes-textarea:focus {
+  outline: none;
+  border-color: #009688;
+  background: #fff;
+}
+
+/* ================================
+   🔢 Controle de Quantidade
+================================ */
+.quantidade-controle {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #e8f6f7;
+  width: fit-content;
+  padding: 8px 15px;
+  border-radius: 25px;
+}
+
+.quantidade-btn {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: none;
+  background: #009688;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quantidade-btn:hover {
+  background: #00796b;
+  transform: scale(1.1);
+}
+
+.quantidade-btn:active {
+  transform: scale(0.95);
+}
+
+.quantidade-valor {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #009688;
+  min-width: 40px;
+  text-align: center;
+}
+
+/* ================================
+   🛒 Footer do Modal
+================================ */
+.modal-footer {
+  padding: 25px 30px;
+  border-top: 2px solid #e8f6f7;
+  background: #fafafa;
+}
+
+.preco-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+}
+
+.preco-total span:first-child {
+  color: #666;
+  font-weight: 500;
+}
+
+.preco-valor {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #00796b;
+}
+
+.btn-adicionar-carrinho {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(90deg, #26c6da, #009688);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: 'Poppins', sans-serif;
+}
+
+.btn-adicionar-carrinho:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 150, 136, 0.3);
+}
+
+.btn-adicionar-carrinho:active {
+  transform: translateY(0);
+}
+
+/* ================================
+   📱 Responsividade
+================================ */
+@media (max-width: 768px) {
+  .modal-personalizacao {
+    max-height: 95vh;
+  }
+
+  .modal-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .modal-produto-imagem {
+    width: 150px;
+    height: 150px;
+  }
+
+  .modal-body {
+    padding: 20px;
+  }
+
+  .modal-footer {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-produto-info h2 {
+    font-size: 1.3rem;
+  }
+
+  .preco-valor {
+    font-size: 1.5rem;
+  }
+}

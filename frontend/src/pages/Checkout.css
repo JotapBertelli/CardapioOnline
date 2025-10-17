@@ -1,0 +1,291 @@
+/* ================================
+   🔤 Fonte Global
+================================ */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* ================================
+   🧱 Container Principal
+================================ */
+.checkout-container {
+  min-height: 100vh;
+  background: #f8f9fb;
+  padding: 40px 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.checkout-content {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* ================================
+   🔙 Botão Voltar
+================================ */
+.voltar-btn {
+  background: none;
+  border: none;
+  color: #009688;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 10px 0;
+  margin-bottom: 20px;
+  transition: color 0.3s, transform 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.voltar-btn:hover {
+  color: #00796b;
+  transform: translateX(-3px);
+}
+
+/* ================================
+   📝 Título e Formulário
+================================ */
+.checkout-content h1 {
+  font-size: clamp(1.8rem, 2.5vw, 2.4rem);
+  margin-bottom: 30px;
+  border-bottom: 2px solid #cdeff0;
+  padding-bottom: 15px;
+  font-weight: 700;
+  color: #009688;
+}
+
+.checkout-form {
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+}
+
+/* ================================
+   📋 Seções do Formulário
+================================ */
+.form-section {
+  border-bottom: 1px solid #e8f6f7;
+  padding-bottom: 30px;
+}
+
+.form-section:last-of-type {
+  border-bottom: none;
+}
+
+.form-section h2 {
+  color: #009688;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+/* ================================
+   📝 Campos de Formulário
+================================ */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #cdeff0;
+  border-radius: 10px;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease;
+  background-color: #fdfdfd;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #009688;
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(0, 150, 136, 0.1);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* ================================
+   🔘 Opções de Radio
+================================ */
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  padding: 18px 20px;
+  border: 2px solid #cdeff0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: #fdfdfd;
+}
+
+.radio-option:hover {
+  border-color: #009688;
+  background: #e8f6f7;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 150, 136, 0.15);
+}
+
+.radio-option input[type="radio"] {
+  width: 22px;
+  height: 22px;
+  margin-right: 15px;
+  cursor: pointer;
+  accent-color: #009688;
+}
+
+.radio-option span {
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: #333;
+  transition: color 0.3s;
+}
+
+.radio-option input[type="radio"]:checked ~ span {
+  color: #009688;
+  font-weight: 600;
+}
+
+/* ================================
+   🧾 Resumo do Checkout
+================================ */
+.resumo-checkout {
+  background: #fafafa;
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.resumo-checkout h2 {
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+  color: #009688;
+  font-weight: 600;
+  border-bottom: 1px solid #cdeff0;
+  padding-bottom: 12px;
+}
+
+.resumo-linha {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  font-size: 1rem;
+  color: #555;
+}
+
+.resumo-linha span:first-child {
+  color: #666;
+}
+
+.resumo-linha span:last-child {
+  font-weight: 600;
+  color: #333;
+}
+
+.resumo-total {
+  display: flex;
+  justify-content: space-between;
+  padding: 18px 0;
+  margin-top: 15px;
+  border-top: 2px solid #ddd;
+}
+
+.resumo-total span {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #00796b;
+}
+
+/* ================================
+   ✅ Botão Finalizar
+================================ */
+.finalizar-pedido-btn {
+  width: 100%;
+  padding: 18px;
+  margin-top: 30px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(90deg, #26c6da, #009688);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.3s;
+  font-family: 'Poppins', sans-serif;
+}
+
+.finalizar-pedido-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0, 150, 136, 0.3);
+}
+
+.finalizar-pedido-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ================================
+   📱 Responsividade
+================================ */
+@media (max-width: 768px) {
+  .checkout-container {
+    padding: 20px 15px;
+  }
+
+  .checkout-content {
+    padding: 25px 20px;
+  }
+
+  .checkout-content h1 {
+    font-size: 1.6rem;
+  }
+
+  .form-section h2 {
+    font-size: 1.1rem;
+  }
+
+  .resumo-total span {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .checkout-content {
+    padding: 20px 15px;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    font-size: 14px;
+  }
+
+  .finalizar-pedido-btn {
+    padding: 16px;
+    font-size: 1rem;
+  }
+}

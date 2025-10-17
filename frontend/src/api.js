@@ -40,11 +40,12 @@ export const updateMenuItem = (itemId, itemData) => apiClient.patch(`/menu-items
 
 // --- Funções para o Carrinho (Cart) ---
 export const getCartItems = () => apiClient.get('/cart-items/');
-export const addCartItem = (produtoId, addons, finalPrice) => {
+export const addCartItem = (produtoId, observacoes = null, finalPrice = null, adicionalId = null) => {
   return apiClient.post('/cart-items/', {
     produto_id: produtoId,
-    addons,
-    final_price: finalPrice
+    observacoes,
+    final_price: finalPrice,
+    adicional_escolhido_id: adicionalId
   });
 };
 export const updateCartItem = (cartItemId, quantidade) => apiClient.patch(`/cart-items/${cartItemId}/`, { quantidade });
@@ -53,13 +54,29 @@ export const removeCartItem = (cartItemId) => apiClient.delete(`/cart-items/${ca
 
 // --- Funções de Pedido (Order) ---
 
-// ✅ NOVA FUNÇÃO: Cria um novo pedido com os itens do carrinho
-export const createOrder = (items) => {
-  return apiClient.post('/orders/', { items });
+// ✅ Cria um novo pedido
+export const createOrder = (pedidoData) => {
+  return apiClient.post('/pedidos/', pedidoData);
 };
 
-// ✅ NOVA FUNÇÃO: Busca todos os pedidos para o painel da cozinha
+// ✅ Busca todos os pedidos
 export const getOrders = () => {
-  return apiClient.get('/orders/');
+  return apiClient.get('/pedidos/');
 };
 
+// ✅ Busca apenas pedidos pendentes/em preparo (para cozinha)
+export const getPedidosPendentes = () => {
+  return apiClient.get('/pedidos/pendentes/');
+};
+
+// ✅ Atualiza o status de um pedido
+export const atualizarStatusPedido = (pedidoId, novoStatus) => {
+  return apiClient.patch(`/pedidos/${pedidoId}/atualizar_status/`, {
+    status: novoStatus
+  });
+};
+
+// ✅ Busca um pedido específico
+export const getPedido = (pedidoId) => {
+  return apiClient.get(`/pedidos/${pedidoId}/`);
+};

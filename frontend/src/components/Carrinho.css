@@ -274,3 +274,28 @@ body {
     margin-top: 5px;
   }
 }
+
+/* ✅ Adicione isso ao final do seu Carrinho.css existente */
+
+/* ================================
+   ➕ Adicionais e Observações
+================================ */
+.item-adicional {
+  color: #009688;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-top: 5px;
+  padding-left: 5px;
+  border-left: 3px solid #26c6da;
+}
+
+.item-observacoes {
+  color: #666;
+  font-size: 0.85rem;
+  font-style: italic;
+  margin-top: 8px;
+  padding: 8px 10px;
+  background: #f9f9f9;
+  border-radius: 6px;
+  border-left: 3px solid #ffc107;
+}

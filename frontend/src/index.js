@@ -7,6 +7,8 @@ import MenuPage from "./pages/HomePage";
 import Carrinho from "./components/Carrinho";
 import AdminPage from "./pages/AdminPage";
 import LoginPage from "./pages/LoginPage";
+import PainelCozinha from './pages/PainelCozinha';
+
 
 // Rota protegida
 function PrivateRoute({ children }) {
@@ -27,6 +29,8 @@ function App() {
 
           {/* Login */}
           <Route path="/login" element={<LoginPage />} />
+            <Route path="/cozinha" element={<PainelCozinha />} />
+
 
           {/* Admin (rota protegida) */}
           <Route
